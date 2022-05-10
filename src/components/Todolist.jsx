@@ -1,21 +1,27 @@
-import React from 'react';
+import  React, { useState }  from 'react';
 import PropTypes from 'prop-types';
+import TodoRemaining from './TodoRemaining'
+import TodoFilter from './TodoFilter'
 
 Todolist.propTypes = {
     todos: PropTypes.array.isRequired,
     completeTodo: PropTypes.func.isRequired,
-    markAsEditing: PropTypes.func.isRequired,
+    showEdit: PropTypes.func.isRequired,
     updateTodo: PropTypes.func.isRequired,
     cancelEdit: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
+    remainingTodos: PropTypes.func.isRequired,
+    clearCompleted: PropTypes.func.isRequired,
+    todosFiltered: PropTypes.func.isRequired,
   };
   
 
 function Todolist(props) {
+  const [filter, setFilter] = useState('all');
     return (
         <div>
         <ul>
-          {props.todos.map((todo, index) => (
+          {props.todosFiltered(filter).map((todo, index) => (
             <li className="todo-item-container" key={todo.id}>
               <div className="todo-item">
                 <input
@@ -72,22 +78,18 @@ function Todolist(props) {
         </ul>
         <div className="check-all-container">
           <div>
-            <div className="button">Check All</div>
+            <div className="button" onClick={props.completeAll}>Check All</div>
           </div>
-
-          <span>3 items remaining</span>
+          <TodoRemaining remainingTodos={props.remainingTodos} />
         </div>
 
         <div className="other-buttons-container">
+          <TodoFilter
+            todosFiltered={props.todosFiltered}
+            filter={filter}
+            setFilter={setFilter} />
           <div>
-            <button className="button filter-button filter-button-active">
-              All
-            </button>
-            <button className="button filter-button">Active</button>
-            <button className="button filter-button">Completed</button>
-          </div>
-          <div>
-            <button className="button">Clear completed</button>
+            <button className="button" onClick={props.clearCompleted}>Clear completed</button>
           </div>
         </div>
       </div>

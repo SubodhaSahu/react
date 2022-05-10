@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 
 class Notodo extends Component {
     render() {
-        return (
-            <div>
-                <div className="no-todos-container">
+      return (
+        <div className="no-todos-container">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               data-name="Layer 1"
@@ -49,8 +48,6 @@ class Notodo extends Component {
             </svg>
             <p>Add Some Todos...</p>
           </div>
-
-            </div>
         );
     }
 }

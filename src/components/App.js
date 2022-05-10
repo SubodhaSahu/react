@@ -88,6 +88,30 @@ function App() {
     });
     setTodos(updatedTodos);
   };
+  let remainingTodos = () => {
+    return todos.filter((todo) => !todo.isComplete).length;
+  };
+  let clearCompleted = () => {
+    setTodos([...todos].filter((todo) => !todo.isComplete));
+  };
+  let completeAll = () => {
+    const updatedTodos = todos.map((todo) => {
+      todo.isComplete = true;
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  function todosFiltered(filter) {
+    if (filter === "all") {
+      return todos;
+    } else if (filter === "active") {
+      return todos.filter((todo) => !todo.isComplete);
+    } else if (filter === "completed") {
+      return todos.filter((todo) => todo.isComplete);
+    }
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -101,6 +125,10 @@ function App() {
             updateTodo={updateTodo}
             cancelEdit={cancelEdit}
             deleteTodo={deleteTodo}
+            remainingTodos={remainingTodos}
+            clearCompleted={clearCompleted}
+            completeAll={completeAll}
+            todosFiltered={todosFiltered}
           />
         ) : (
           <Notodo />
