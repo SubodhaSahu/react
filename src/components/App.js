@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Another from "./Another";
 import "../App.css";
 import userEvent from "@testing-library/user-event";
@@ -7,7 +7,8 @@ import Todoform from "./Todoform";
 import Todolist from "./Todolist";
 
 function App() {
-  const regInput = React.useRef();
+  const [name, setName] = useState("");
+  const nameInputEle = useRef("");
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -88,9 +89,13 @@ function App() {
     });
     setTodos(updatedTodos);
   };
-  let remainingTodos = () => {
+  let remainingCalculation = () => {
+    setTimeout(() => {
+      console.log("Waiting period");
+    }, 60000);
     return todos.filter((todo) => !todo.isComplete).length;
   };
+  const remaining = useMemo(remainingCalculation, [todos]);
   let clearCompleted = () => {
     setTodos([...todos].filter((todo) => !todo.isComplete));
   };
@@ -111,10 +116,27 @@ function App() {
       return todos.filter((todo) => todo.isComplete);
     }
   }
+  useEffect(() => {
+    nameInputEle.current.focus();
+  }, []);
 
   return (
     <div className="todo-app-container">
       <div className="todo-app">
+        <div className="name-container">
+          <h2>What is your name?</h2>
+          <form action="#">
+            <input
+              type="text"
+              ref={nameInputEle}
+              className="todo-input"
+              value={name}
+              placeholder="What is your name"
+              onChange={(event) => setName(event.target.value)}
+            />
+          </form>
+          {name && <p>Hello {name}</p>}
+        </div>
         <h2>Todo App</h2>
         <Todoform addTodo={addTodo} />
         {todos.length > 0 ? (
@@ -125,7 +147,7 @@ function App() {
             updateTodo={updateTodo}
             cancelEdit={cancelEdit}
             deleteTodo={deleteTodo}
-            remainingTodos={remainingTodos}
+            remaining={remaining}
             clearCompleted={clearCompleted}
             completeAll={completeAll}
             todosFiltered={todosFiltered}

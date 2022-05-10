@@ -10,7 +10,7 @@ Todolist.propTypes = {
     updateTodo: PropTypes.func.isRequired,
     cancelEdit: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
-    remainingTodos: PropTypes.func.isRequired,
+    remaining: PropTypes.number.isRequired,
     clearCompleted: PropTypes.func.isRequired,
     todosFiltered: PropTypes.func.isRequired,
   };
@@ -80,7 +80,7 @@ function Todolist(props) {
           <div>
             <div className="button" onClick={props.completeAll}>Check All</div>
           </div>
-          <TodoRemaining remainingTodos={props.remainingTodos} />
+          <TodoRemaining remainingTodos={props.remaining} />
         </div>
 
         <div className="other-buttons-container">
