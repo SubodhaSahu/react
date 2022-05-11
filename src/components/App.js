@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Another from "./Another";
 import "../App.css";
 import userEvent from "@testing-library/user-event";
@@ -6,6 +6,7 @@ import Notodo from "./Notodo";
 import Todoform from "./Todoform";
 import Todolist from "./Todolist";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { TodoContext } from "../context/TodoContext";
 
 function App() {
   //const [name, setName] = useState("");
@@ -34,16 +35,16 @@ function App() {
   //const [todoId, setTodoId] = useState(todos.length);
   const [todoId, setTodoId] = useLocalStorage("id", todos.length); //Using custom hook
 
-  let addTodo = (todo) => {
-    const newTodo = {
-      id: todoId + 1,
-      title: todo,
-      isComplete: false,
-      isEditing: false,
-    };
-    setTodoId((todoId) => todoId + 1);
-    setTodos((todos) => [...todos, newTodo]);
-  };
+  // let addTodo = (todo) => {
+  //   const newTodo = {
+  //     id: todoId + 1,
+  //     title: todo,
+  //     isComplete: false,
+  //     isEditing: false,
+  //   };
+  //   setTodoId((todoId) => todoId + 1);
+  //   setTodos((todos) => [...todos, newTodo]);
+  // };
 
   let deleteTodo = (todoId) => {
     setTodos((todos) => [...todos].filter((todo) => todo.id !== todoId));
@@ -126,44 +127,47 @@ function App() {
   function handleNameInput(event) {
     setName(event.target.value);
   }
+  const msg = "Hello from provider";
 
   return (
-    <div className="todo-app-container">
-      <div className="todo-app">
-        <div className="name-container">
-          <h2>What is your name?</h2>
-          <form action="#">
-            <input
-              type="text"
-              ref={nameInputEle}
-              className="todo-input"
-              value={name}
-              placeholder="What is your name"
-              onChange={handleNameInput}
+    <TodoContext.Provider value={{ msg, todos, setTodos, todoId, setTodoId }}>
+      <div className="todo-app-container">
+        <div className="todo-app">
+          <div className="name-container">
+            <h2>What is your name?</h2>
+            <form action="#">
+              <input
+                type="text"
+                ref={nameInputEle}
+                className="todo-input"
+                value={name}
+                placeholder="What is your name"
+                onChange={handleNameInput}
+              />
+            </form>
+            {name && <p>Hello {name}</p>}
+          </div>
+          <h2>Todo App</h2>
+          <Todoform />
+          {todos.length > 0 ? (
+            <Todolist
+              todos={todos}
+              completeTodo={completeTodo}
+              showEdit={showEdit}
+              updateTodo={updateTodo}
+              cancelEdit={cancelEdit}
+              deleteTodo={deleteTodo}
+              remaining={remaining}
+              clearCompleted={clearCompleted}
+              completeAll={completeAll}
+              todosFiltered={todosFiltered}
             />
-          </form>
-          {name && <p>Hello {name}</p>}
+          ) : (
+            <Notodo />
+          )}
         </div>
-        <h2>Todo App</h2>
-        <Todoform addTodo={addTodo} />
-        {todos.length > 0 ? (
-          <Todolist
-            todos={todos}
-            completeTodo={completeTodo}
-            showEdit={showEdit}
-            updateTodo={updateTodo}
-            cancelEdit={cancelEdit}
-            deleteTodo={deleteTodo}
-            remaining={remaining}
-            clearCompleted={clearCompleted}
-            completeAll={completeAll}
-            todosFiltered={todosFiltered}
-          />
-        ) : (
-          <Notodo />
-        )}
       </div>
-    </div>
+    </TodoContext.Provider>
   );
 }
 
