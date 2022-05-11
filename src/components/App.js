@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Another from "./Another";
 import "../App.css";
 import userEvent from "@testing-library/user-event";
 import Notodo from "./Notodo";
 import Todoform from "./Todoform";
 import Todolist from "./Todolist";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 function App() {
-  const [name, setName] = useState("");
+  //const [name, setName] = useState("");
+  const [name, setName] = useLocalStorage("name", ""); //Using Custom Hook
   const nameInputEle = useRef("");
-  const [todos, setTodos] = useState([
+  const [todos, setTodos] = useLocalStorage("todos", [
     {
       id: 1,
       title: "Finish React Series",
@@ -29,7 +31,8 @@ function App() {
       isEditing: false,
     },
   ]);
-  const [todoId, setTodoId] = useState(todos.length);
+  //const [todoId, setTodoId] = useState(todos.length);
+  const [todoId, setTodoId] = useLocalStorage("id", todos.length); //Using custom hook
 
   let addTodo = (todo) => {
     const newTodo = {
@@ -120,6 +123,10 @@ function App() {
     nameInputEle.current.focus();
   }, []);
 
+  function handleNameInput(event) {
+    setName(event.target.value);
+  }
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -132,7 +139,7 @@ function App() {
               className="todo-input"
               value={name}
               placeholder="What is your name"
-              onChange={(event) => setName(event.target.value)}
+              onChange={handleNameInput}
             />
           </form>
           {name && <p>Hello {name}</p>}
