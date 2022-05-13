@@ -19,6 +19,9 @@ function Navigation(props) {
         <li>
           <Link to="blogs">Blogs</Link>
         </li>
+        <li>
+          <Link to="fetch">Fetch </Link>
+        </li>
       </ul>
     </nav>
   );

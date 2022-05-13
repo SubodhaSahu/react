@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Blogs from "./pages/Blogs";
 import BlogPost from "./pages/BlogPost";
 import NoMatch from "./pages/NoMatch";
+import FetchData from "./pages/FetchData";
 
 class Root extends Component {
   routeList = [
@@ -15,6 +16,7 @@ class Root extends Component {
     { path: "/contact", name: "Contact", Component: Contact, exact: false },
     { path: "/blogs", name: "Blog", Component: Blogs, exact: true },
     { path: "/blogs/:id", name: "Post", Component: BlogPost, exact: false },
+    { path: "/fetch", name: "Fetch", Component: FetchData, exact: false },
     { path: "*", name: "No Match", Component: NoMatch, exact: false },
   ];
 
