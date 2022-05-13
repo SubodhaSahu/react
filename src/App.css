@@ -14,6 +14,7 @@ body {
 .todo-app-container {
   min-height: 100vh;
   background: #f3f4f6;
+  padding-top:5px
 }
 
 .container {
@@ -172,6 +173,7 @@ nav ul {
   display: flex;
   justify-content: center;
   margin: auto;
+  list-style: none;
 }
 
 nav ul li:not(:first-child) {
@@ -227,13 +229,13 @@ nav ul li:not(:first-child) {
   transition: all 300ms;
   transform: translateX(20px);
 }
-
-.no-todos-container {
-  width: 300px;
-  margin: 30px auto;
-}
-
-.no-todos-container p {
-  margin-top: 20px;
-  text-align: center;
+.main-content {
+  margin: auto;
+  margin-top: 30px;
+  padding: 2rem;
+  background: white;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  max-width: 32rem;
+  color: #374151;
 }

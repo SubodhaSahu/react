@@ -131,41 +131,39 @@ function App() {
 
   return (
     <TodoContext.Provider value={{ msg, todos, setTodos, todoId, setTodoId }}>
-      <div className="todo-app-container">
-        <div className="todo-app">
-          <div className="name-container">
-            <h2>What is your name?</h2>
-            <form action="#">
-              <input
-                type="text"
-                ref={nameInputEle}
-                className="todo-input"
-                value={name}
-                placeholder="What is your name"
-                onChange={handleNameInput}
-              />
-            </form>
-            {name && <p>Hello {name}</p>}
-          </div>
-          <h2>Todo App</h2>
-          <Todoform />
-          {todos.length > 0 ? (
-            <Todolist
-              todos={todos}
-              completeTodo={completeTodo}
-              showEdit={showEdit}
-              updateTodo={updateTodo}
-              cancelEdit={cancelEdit}
-              deleteTodo={deleteTodo}
-              remaining={remaining}
-              clearCompleted={clearCompleted}
-              completeAll={completeAll}
-              todosFiltered={todosFiltered}
+      <div className="">
+        <div className="name-container">
+          <h2>What is your name?</h2>
+          <form action="#">
+            <input
+              type="text"
+              ref={nameInputEle}
+              className="todo-input"
+              value={name}
+              placeholder="What is your name"
+              onChange={handleNameInput}
             />
-          ) : (
-            <Notodo />
-          )}
+          </form>
+          {name && <p>Hello {name}</p>}
         </div>
+        <h2>Todo App</h2>
+        <Todoform />
+        {todos.length > 0 ? (
+          <Todolist
+            todos={todos}
+            completeTodo={completeTodo}
+            showEdit={showEdit}
+            updateTodo={updateTodo}
+            cancelEdit={cancelEdit}
+            deleteTodo={deleteTodo}
+            remaining={remaining}
+            clearCompleted={clearCompleted}
+            completeAll={completeAll}
+            todosFiltered={todosFiltered}
+          />
+        ) : (
+          <Notodo />
+        )}
       </div>
     </TodoContext.Provider>
   );
