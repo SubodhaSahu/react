@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 import useFetch from "../../hooks/useFetch";
 
 const Rediit = () => {
+  const queryClient = useQueryClient();
+  let getPosts = () => {
+    return fetch("https://www.reddit.com/r/aww.json").then((response) =>
+      response.json()
+    );
+  };
+
+  // Queries
   const {
+    isLoading,
+    isError,
     data: posts,
     error,
-    isLoading,
-  } = useFetch("https://www.reddit.com/r/aww.json");
+    isSuccess,
+  } = useQuery("posts", getPosts);
+
+  // const {
+  //   isLoading,
+  //   isError,
+  //   data: posts,
+  //   error,
+  //   isSuccess,
+  // } = useFetch("https://www.reddit.com/r/aww.json");
   //const [posts, setPosts] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
   //const [error, setError] = useState(null);
@@ -27,7 +46,7 @@ const Rediit = () => {
     <div>
       <h1> Redit APi Result</h1>
       {isLoading && <div> Loading...</div>}
-      {posts && (
+      {isSuccess && (
         <ul>
           {posts.data.children.map((post) => (
             <li key={post.data.id}>
@@ -43,7 +62,7 @@ const Rediit = () => {
           ))}
         </ul>
       )}
-      {error && <div> {error}</div>}
+      {isError && <div> {error.message}</div>}
     </div>
   );
 };
